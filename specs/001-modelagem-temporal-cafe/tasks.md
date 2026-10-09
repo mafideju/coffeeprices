@@ -26,12 +26,12 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
 
 **Objetivo**: dependência instalada e todos os valores novos em `config.py`.
 
-- [ ] T001 Confirmar `scikit-learn` em `requirements.txt` e no `.venv`
+- [X] T001 Confirmar `scikit-learn` em `requirements.txt` e no `.venv`
   - **Comando**: `.\.venv\Scripts\python.exe -m pip check; .\.venv\Scripts\python.exe -c "import sklearn; print(sklearn.__version__)"`
   - **Esperado**: `No broken requirements found.` e `1.9.1`; `requirements.txt` lista `scikit-learn`.
   - **Commit**: `chore: add scikit-learn dependency`
 
-- [ ] T002 Adicionar a `src/config.py`: `FEATURES_MODELO` (as 13 variáveis do FR-001, nesta ordem), `SEMENTE = 42`, `N_SPLITS_CV = 3`, `TAMANHO_VALIDACAO_CV = 12`, `TAMANHOS_ESPERADOS = (72, 33)`, grades (logística `C` {0.01, 0.1, 1, 10}; Ridge `alpha` {100, 10, 1, 0.1}, ordenadas do mais simples ao mais complexo; RF `n_estimators = 300`, `max_depth` {2, 3, 4}, `min_samples_leaf` {10, 5}), `TOLERANCIA_MACRO_F1 = 0.03` e `TOLERANCIA_RMSE = 0.03`. Reutilizar `GAP_MESES` e `ANO_FIM_TREINO`. **Pré-requisito** (cumprido): tolerâncias e grades aprovadas pelo autor em 2026-10-09.
+- [X] T002 Adicionar a `src/config.py`: `FEATURES_MODELO` (as 13 variáveis do FR-001, nesta ordem), `SEMENTE = 42`, `N_SPLITS_CV = 3`, `TAMANHO_VALIDACAO_CV = 12`, `TAMANHOS_ESPERADOS = (72, 33)`, grades (logística `C` {0.01, 0.1, 1, 10}; Ridge `alpha` {100, 10, 1, 0.1}, ordenadas do mais simples ao mais complexo; RF `n_estimators = 300`, `max_depth` {2, 3, 4}, `min_samples_leaf` {10, 5}), `TOLERANCIA_MACRO_F1 = 0.03` e `TOLERANCIA_RMSE = 0.03`. Reutilizar `GAP_MESES` e `ANO_FIM_TREINO`. **Pré-requisito** (cumprido): tolerâncias e grades aprovadas pelo autor em 2026-10-09.
   - **Comando**: `.\.venv\Scripts\python.exe -c "import sys; sys.path.insert(0,'src'); import config as c; print(len(c.FEATURES_MODELO), set(c.FEATURES_MODELO) <= set(c.FEATURES_CANDIDATAS), c.SEMENTE, c.TAMANHOS_ESPERADOS)"`
   - **Esperado**: `13 True 42 (72, 33)`.
   - **Commit**: `feat: add modeling settings to config`
@@ -45,12 +45,12 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
 **Objetivo**: X, y, treino de 72 linhas e teste de 33, verificados e impressos, sem treinar modelo.
 **Teste independente**: rodar o 08 e conferir tamanhos, datas e as 13 colunas.
 
-- [ ] T003 [US1] Criar `src/08_preparar_modelagem.py`: ler `dados/processados/dataset_mensal.csv`; conferir que as 13 colunas existem e que `oni`, `periodo` e os alvos não estão entre as variáveis (FR-002); treino = `mes <= Timestamp(f"{ANO_FIM_TREINO}-12-01") - GAP_MESES meses` (2021-12) com alvo; teste = `mes >= 2023-01` com alvo (2022 descartado); interromper com mensagem clara se os tamanhos divergirem de `TAMANHOS_ESPERADOS`, se houver NaN nas 13 variáveis ou se `último mês do treino + 12 meses` for >= primeiro mês do teste; gravar `dados/processados/modelagem_treino.csv` e `modelagem_teste.csv` (colunas `mes`, 13 variáveis, `alvo_alta`, `alvo_acum_12m`).
+- [X] T003 [US1] Criar `src/08_preparar_modelagem.py`: ler `dados/processados/dataset_mensal.csv`; conferir que as 13 colunas existem e que `oni`, `periodo` e os alvos não estão entre as variáveis (FR-002); treino = `mes <= Timestamp(f"{ANO_FIM_TREINO}-12-01") - GAP_MESES meses` (2021-12) com alvo; teste = `mes >= 2023-01` com alvo (2022 descartado); interromper com mensagem clara se os tamanhos divergirem de `TAMANHOS_ESPERADOS`, se houver NaN nas 13 variáveis ou se `último mês do treino + 12 meses` for >= primeiro mês do teste; gravar `dados/processados/modelagem_treino.csv` e `modelagem_teste.csv` (colunas `mes`, 13 variáveis, `alvo_alta`, `alvo_acum_12m`).
   - **Comando**: `$env:PYTHONIOENCODING='utf-8'; .\.venv\Scripts\python.exe src\08_preparar_modelagem.py`
   - **Esperado**: imprime `treino: 72 linhas (2016-01 a 2021-12)`, `descartado: 2022`, `teste: 33 linhas (2023-01 a 2025-09)`, a lista das 13 variáveis, `0 NaN`; saída 0 e dois CSVs criados.
   - **Commit**: `feat: add modeling data preparation script`
 
-- [ ] T004 [US1] Provar que as travas funcionam: rodar o 08 uma vez com `TAMANHOS_ESPERADOS = (73, 33)` (alterado temporariamente, sem commit) e voltar o valor.
+- [X] T004 [US1] Provar que as travas funcionam: rodar o 08 uma vez com `TAMANHOS_ESPERADOS = (73, 33)` (alterado temporariamente, sem commit) e voltar o valor.
   - **Comando**: igual ao de T003, após a edição temporária.
   - **Esperado**: o script para com mensagem clara dizendo que o treino tem 72 e não 73; depois de reverter, T003 volta a passar. `git diff src\config.py` vazio.
   - **Commit**: nenhum (verificação; não deixa alteração).
