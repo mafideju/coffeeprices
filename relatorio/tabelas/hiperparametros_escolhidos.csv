@@ -1,0 +1,5 @@
+tarefa,modelo,hiperparametros,class_weight
+classificacao,logistica,{'C': 1},balanced
+regressao,ridge,{'alpha': 100},
+classificacao,rf_classificacao,"{'max_depth': 2, 'min_samples_leaf': 5}",balanced
+regressao,rf_regressao,"{'max_depth': 2, 'min_samples_leaf': 10}",

@@ -1,0 +1,26 @@
+tarefa,modelo,hiperparametros,nota,escolhida
+classificacao,baseline_maioria,,0.14285714285714285,baseline
+classificacao,baseline_persistencia_sinal,,0.625,baseline
+regressao,baseline_media,,32.96987585444462,baseline
+regressao,baseline_persistencia,,28.709618001918177,baseline
+classificacao,logistica,{'C': 0.01},0.6486246672582077,
+classificacao,logistica,{'C': 0.1},0.7230769230769231,
+classificacao,logistica,{'C': 1},0.7777777777777777,sim
+classificacao,logistica,{'C': 10},0.7497517378351539,
+regressao,ridge,{'alpha': 1000},32.581547309623495,
+regressao,ridge,{'alpha': 100},31.500786050039906,sim
+regressao,ridge,{'alpha': 10},32.53600240146514,
+regressao,ridge,{'alpha': 1},34.57336890846439,
+regressao,ridge,{'alpha': 0.1},34.96553635060509,
+classificacao,rf_classificacao,"{'max_depth': 2, 'min_samples_leaf': 10}",0.3793103448275862,
+classificacao,rf_classificacao,"{'max_depth': 2, 'min_samples_leaf': 5}",0.5982142857142857,sim
+classificacao,rf_classificacao,"{'max_depth': 3, 'min_samples_leaf': 10}",0.3793103448275862,
+classificacao,rf_classificacao,"{'max_depth': 3, 'min_samples_leaf': 5}",0.6210526315789473,
+classificacao,rf_classificacao,"{'max_depth': 4, 'min_samples_leaf': 10}",0.3793103448275862,
+classificacao,rf_classificacao,"{'max_depth': 4, 'min_samples_leaf': 5}",0.6210526315789473,
+regressao,rf_regressao,"{'max_depth': 2, 'min_samples_leaf': 10}",34.633523347223175,sim
+regressao,rf_regressao,"{'max_depth': 2, 'min_samples_leaf': 5}",33.95004706825746,
+regressao,rf_regressao,"{'max_depth': 3, 'min_samples_leaf': 10}",34.633523347223175,
+regressao,rf_regressao,"{'max_depth': 3, 'min_samples_leaf': 5}",33.97232725845041,
+regressao,rf_regressao,"{'max_depth': 4, 'min_samples_leaf': 10}",34.633523347223175,
+regressao,rf_regressao,"{'max_depth': 4, 'min_samples_leaf': 5}",33.972960219259825,
