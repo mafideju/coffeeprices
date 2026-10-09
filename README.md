@@ -43,22 +43,4 @@ Crie `dados/brutos/safra_conab.csv` com as colunas `ano,producao_milhoes_sacas,b
 
 Saídas: `dados/brutos/` (dados coletados), `dados/processados/dataset_mensal.csv`, `relatorio/tabelas/` (CSVs para o relatório) e `relatorio/figuras/` (gráficos PNG).
 
-## Pontos de verificação (confira na primeira execução)
-
-- `01`: o resumo impresso deve mostrar o subitem café moído e a variação mensal. Se aparecer mais de uma categoria, refaça o link.
-- `02`: a série 3698 foi verificada por comparação com a média mensal da série diária SGS 1 (dólar comercial venda), não pela documentação do BCB. Se falhar, troque `SGS_CAMBIO` por uma série de câmbio que você validar.
-- `03`: se a API do NASA POWER mudar o formato, o script falha com mensagem clara. Os pontos de `PONTOS_CLIMA` são aproximados e precisam ser justificados no relatório.
-- `04`: se o endereço do arquivo da NOAA mudar, baixe o ONI manualmente e adapte o script.
-- `05`: se não achar "Coffee, Arabica", o script imprime as primeiras linhas da planilha para você inspecionar.
-
-## O que me enviar depois de rodar
-
-Cole aqui o texto impresso pelo `06` e pelo `07` e as tabelas de `relatorio/tabelas/`. Com isso preenchemos as seções 10 a 16 com números reais. Os gráficos de `relatorio/figuras/` vão direto no relatório.
-
-## Cuidados metodológicos já embutidos
-
-- **Sem vazamento:** o alvo usa apenas meses futuros (t+1 a t+12); as variáveis explicativas usam só o passado. O ONI nunca entra com defasagem menor que 2 meses.
-- **Anomalias climáticas** são calculadas só com o período de treino (até `ANO_FIM_TREINO`).
-- **Divisão treino/teste** é temporal (coluna `periodo`), nunca embaralhada.
-- As correlações com o alvo são **inflacionadas** por janelas de 12 meses sobrepostas: use-as apenas como pista, não como prova.
-- O dataset tem dezenas de colunas e poucas linhas. Na fase de modelagem, vamos reduzir as variáveis.
+Author: db.mars@proton.me
