@@ -15,7 +15,7 @@ for pasta in (DADOS_BRUTOS, DADOS_PROCESSADOS, FIGURAS, TABELAS):
 ANO_INICIO = 2016                 # primeiro ano do dataset final
 ANO_COLETA_INICIO = ANO_INICIO - 1  # coletamos 1 ano antes para calcular defasagens
 ANO_FIM = date.today().year
-ANO_FIM_TREINO = 2022             # treino: até este ano; teste: anos seguintes
+ANO_FIM_TREINO = 2022             # usado só na coluna "periodo" e na climatologia das anomalias; a modelagem usa GAP_MESES
 GAP_MESES = 12                    # o alvo olha 12 meses à frente: linhas cujo alvo invade o teste não servem
 
 # --- Variáveis explicativas candidatas (dicionário de dados) ---
