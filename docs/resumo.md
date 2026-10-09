@@ -69,3 +69,12 @@ Data da execução: 2026-10-09. Ambiente: Windows, PowerShell, Python 3.12.2, `.
 - Commit de `relatorio/` (`chore:`), se desejado.
 - Decisões metodológicas ficam com o outro chat. A Fase B não foi iniciada.
 
+
+## Fase B (modelagem), 2026-10-09
+- `config.py`: `FEATURES_MODELO` (13), `SEMENTE = 42`, grades, tolerâncias (0,03) e `TAMANHOS_ESPERADOS = (72, 33)`.
+- `08`: treino 72 linhas (2016-01 a 2021-12), 2022 descartado, teste 33 linhas (2023-01 a 2025-09), 0 NaN.
+- `09`: baselines, logística (`C = 1`), Ridge (`alpha = 100`), RF de classificação (`max_depth = 2`, `min_samples_leaf = 5`) e RF de regressão (`max_depth = 2`, `min_samples_leaf = 10`); `class_weight="balanced"` nos classificadores; validação cruzada temporal com nota agrupada. Ridge: grade ampliada com `alpha = 1000`, sem mudar a escolha.
+- `10`: teste aberto uma vez. Classificação: macro-F1 0,4107 (maioria), 0,2993 (persistência), 0,4995 (logística), 0,5227 (RF). Regressão: RMSE 35,0413 (média), 55,8725 (persistência), 37,9301 (Ridge), 38,4511 (RF). Regressão não supera a média. Resultados indicativos.
+- `11`: previsão ilustrativa só para 2026-09 (janela 2026-10 a 2027-09); 2026-10 a 2026-12 não é possível sem inventar dados.
+- Reprodutibilidade: 2 rodadas completas com hash idêntico nas 12 tabelas.
+- Detalhes completos em `docs/pacote-de-retorno-faseb.md`.

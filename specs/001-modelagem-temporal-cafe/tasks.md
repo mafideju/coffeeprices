@@ -130,9 +130,9 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
 
 ## Fase 5: História 4 - Previsão ilustrativa para 2026-09 (P3, opcional)
 
-**Só executar se o autor aprovar explicitamente depois de ver os resultados (FR-017).** Sem aprovação, nenhuma tarefa desta fase é feita e nenhum arquivo é criado.
+**Aprovado pelo autor em 2026-10-09 (FR-017), só para 2026-09; 2026-10 a 2026-12 não é possível sem inventar dados.** Sem aprovação, nenhuma tarefa desta fase é feita e nenhum arquivo é criado.
 
-- [ ] T014 [US4] (condicional) Criar `src/11_prever_ilustrativo.py`: usar os modelos já escolhidos no treino, montar as 13 variáveis de 2026-09 e gravar `relatorio/tabelas/previsao_ilustrativa_2026-09.csv` com o rótulo "ilustrativa" e sem valor real.
+- [X] T014 [US4] (condicional) Criar `src/11_prever_ilustrativo.py`: usar os modelos já escolhidos no treino, montar as 13 variáveis de 2026-09 e gravar `relatorio/tabelas/previsao_ilustrativa_2026-09.csv` com o rótulo "ilustrativa" e sem valor real.
   - **Comando**: `$env:PYTHONIOENCODING='utf-8'; .\.venv\Scripts\python.exe src\11_prever_ilustrativo.py`
   - **Esperado**: 1 linha por modelo, mês 2026-09, coluna `rotulo = ilustrativa`; sem NaN nas 13 variáveis (hoje o ONI e o clima terminam em 2026-08; as defasagens usadas já cobrem 2026-09).
   - **Commit**: `feat: add illustrative 2026-09 forecast`
@@ -141,17 +141,17 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
 
 ## Fase 6: Fechamento (registro, pacote de retorno, publicação)
 
-- [ ] T015 Registrar em `docs/registro-de-correcoes.md` o que foi decidido e corrigido na Fase B (nota agrupada da validação, desempate, tolerâncias, `class_weight="balanced"`, qualquer mudança no 09 depois da primeira saída do 10, qualquer ajuste feito durante a implementação, e a limitação "6 meses de queda na nota agrupada").
+- [X] T015 Registrar em `docs/registro-de-correcoes.md` o que foi decidido e corrigido na Fase B (nota agrupada da validação, desempate, tolerâncias, `class_weight="balanced"`, qualquer mudança no 09 depois da primeira saída do 10, qualquer ajuste feito durante a implementação, e a limitação "6 meses de queda na nota agrupada").
   - **Comando**: `git diff --stat docs\registro-de-correcoes.md`
   - **Esperado**: entradas novas datadas, em português.
   - **Commit**: `docs: log phase B decisions and corrections`
 
-- [ ] T016 Atualizar `docs/resumo.md` e `docs/pacote-de-retorno.md` com a Fase B e **criar `docs/pacote-de-retorno-faseb.md`**. Conteúdo obrigatório do novo arquivo, colando a saída real, sem resumir nem inventar números: saída completa dos scripts 08, 09 e 10; tabelas de métricas (classificação e regressão) e de importância das variáveis; hiperparâmetros escolhidos e tabela de validação cruzada; tamanhos e contagem de classes de cada divisão da validação cruzada; lista das figuras geradas; correções feitas (`docs/registro-de-correcoes.md`); versões das bibliotecas (Python, pandas, numpy, scikit-learn, matplotlib); dúvidas pendentes. Nos outros dois arquivos: variáveis usadas, tamanhos, hiperparâmetros, limitações (teste de 33 linhas, nota agrupada com 6 quedas, divisão 1 com 24 linhas, H1 e H5 não testadas) e a conclusão sobre baselines, exatamente como saiu.
+- [X] T016 Atualizar `docs/resumo.md` e `docs/pacote-de-retorno.md` com a Fase B e **criar `docs/pacote-de-retorno-faseb.md`**. Conteúdo obrigatório do novo arquivo, colando a saída real, sem resumir nem inventar números: saída completa dos scripts 08, 09 e 10; tabelas de métricas (classificação e regressão) e de importância das variáveis; hiperparâmetros escolhidos e tabela de validação cruzada; tamanhos e contagem de classes de cada divisão da validação cruzada; lista das figuras geradas; correções feitas (`docs/registro-de-correcoes.md`); versões das bibliotecas (Python, pandas, numpy, scikit-learn, matplotlib); dúvidas pendentes. Nos outros dois arquivos: variáveis usadas, tamanhos, hiperparâmetros, limitações (teste de 33 linhas, nota agrupada com 6 quedas, divisão 1 com 24 linhas, H1 e H5 não testadas) e a conclusão sobre baselines, exatamente como saiu.
   - **Comando**: `Test-Path docs\pacote-de-retorno-faseb.md; Select-String -Path docs\pacote-de-retorno-faseb.md -Pattern "macro-F1","RMSE" | Select-Object -First 5`
   - **Esperado**: `True`; números iguais aos de `metricas_*.csv` (conferir por amostragem); nenhum valor inventado.
   - **Commit**: `docs: add phase B return package (docs/pacote-de-retorno-faseb.md) and update summary`
 
-- [ ] T017 Marcar as tarefas concluídas neste `tasks.md`, conferir `git status` limpo e `git log --oneline` com um commit por tarefa; lembrar o autor de rodar `git push` (o ambiente não faz login interativo).
+- [X] T017 Marcar as tarefas concluídas neste `tasks.md`, conferir `git status` limpo e `git log --oneline` com um commit por tarefa; lembrar o autor de rodar `git push` (o ambiente não faz login interativo).
   - **Comando**: `git status --short; git --no-pager log --oneline -20`
   - **Esperado**: árvore limpa; commits em Conventional Commits.
   - **Commit**: `docs: mark phase B tasks as completed`

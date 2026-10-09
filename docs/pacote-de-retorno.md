@@ -228,3 +228,7 @@ Só 72 linhas (2016-01 a 2021-12, com alvo disponível e gap de 12 meses); alvo 
 | 36 | mes_cos | -0,034 |
 
 Comparação com a tabela de todas as linhas (seção 3): `cambio_medio_l6` passa de 0,37 para 0,87; `variacao_mensal_l12` de -0,44 para -0,06; `acum12_passado` de -0,18 para +0,31; `tempmin_anom_l6` de 0,28 para 0,18. As variações novas de câmbio têm correlação baixa (-0,19 a 0,13); as de arábica ficam entre 0,50 e 0,56.
+
+## 13. Fase B (modelagem)
+
+A Fase B está concluída (scripts 08, 09, 10 e 11). O pacote completo, com as saídas dos scripts, as tabelas de métricas e de importância, os hiperparâmetros, as figuras, as versões e as dúvidas, está em `docs/pacote-de-retorno-faseb.md`.

@@ -1,0 +1,9 @@
+mes,tarefa,modelo,previsao,janela_prevista,rotulo
+2026-09,classificacao,baseline_maioria,1.0,2026-10 a 2027-09,ilustrativa
+2026-09,classificacao,baseline_persistencia_sinal,0.0,2026-10 a 2027-09,ilustrativa
+2026-09,classificacao,logistica,0.0,2026-10 a 2027-09,ilustrativa
+2026-09,classificacao,rf_classificacao,0.0,2026-10 a 2027-09,ilustrativa
+2026-09,regressao,baseline_media,12.162537234677494,2026-10 a 2027-09,ilustrativa
+2026-09,regressao,baseline_persistencia,-17.801490575698033,2026-10 a 2027-09,ilustrativa
+2026-09,regressao,ridge,-1.2446164531209991,2026-10 a 2027-09,ilustrativa
+2026-09,regressao,rf_regressao,-5.505163101314094,2026-10 a 2027-09,ilustrativa
