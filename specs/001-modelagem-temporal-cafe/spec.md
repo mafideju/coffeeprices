@@ -137,7 +137,7 @@ Ao final, e somente se o autor aprovar, o autor quer uma previsão ilustrativa p
 - As 13 variáveis já existem no dataset; nenhuma variável nova será criada.
 - O treino efetivo tem 72 linhas porque as 12 linhas de 2022 são descartadas para evitar que o alvo de treino invada o teste; o intervalo de segurança de 12 meses decorre do horizonte do alvo.
 - O teste é pequeno (33 linhas, cerca de 3 janelas independentes) e as janelas se sobrepõem, então os resultados do teste são indicativos e não conclusivos.
-- Os critérios de aceitação "F1 acima do baseline" e "RMSE pelo menos 10% menor que o baseline" foram substituídos pelas métricas macro-F1, acurácia balanceada, RMSE e MAE, definidas nesta especificação com decisão do autor; um resultado modesto mas bem analisado é aceitável.
+- Os critérios de aceitação da constituição v1.0.0 ("F1 acima do baseline" e "RMSE pelo menos 10% menor que o baseline") foram substituídos, pela emenda v1.1.0, pelas métricas macro-F1, acurácia balanceada, RMSE e MAE e pelo critério de relatar o resultado como está; um resultado modesto mas bem analisado é aceitável.
 - scikit-learn é a única nova dependência, permitida pela constituição na fase de modelagem.
-- Esta especificação diverge da constituição v1.0.0 (Princípio III) em três pontos: métricas (macro-F1, acurácia balanceada e MAE em vez de F1, acurácia e MAPE), treino até 2021 com intervalo de segurança em 2022 (em vez de treino até 2022) e critérios de aceitação. A constituição deve ser emendada com aprovação do autor antes do planejamento.
+- Esta especificação está alinhada à constituição v1.1.0 (Princípio III): métricas macro-F1, acurácia balanceada, RMSE e MAE; treino até 2021-12, intervalo de segurança de 12 meses em 2022 e teste de 2023-01 em diante; e critério de aceitação "relatar como está".
 - Safra CONAB não está disponível; as hipóteses H1 e H5 ficam não testadas diretamente, e isso é uma limitação.

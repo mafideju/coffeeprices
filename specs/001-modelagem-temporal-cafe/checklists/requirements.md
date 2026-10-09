@@ -32,4 +32,4 @@
 ## Notes
 
 - Os nomes dos modelos (regressão logística, Ridge, Random Forest) e das métricas fazem parte da metodologia definida pelo autor, não de detalhes de implementação.
-- Pendência de governança: a constituição v1.0.0 (Princípio III) diverge desta especificação em métricas, divisão e critérios de aceitação. Emendar com aprovação do autor antes de `/speckit-plan`.
+- Pendência de governança resolvida: a constituição foi emendada para a v1.1.0 e está alinhada a esta especificação.
