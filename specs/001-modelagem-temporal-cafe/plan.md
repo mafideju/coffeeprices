@@ -38,7 +38,7 @@ Três scripts numerados (`08`, `09`, `10`), no mesmo estilo da Fase A, comparam 
 | II. Ausência de vazamento | 13 variáveis fixas, todas de passado; `oni` sem defasagem fora; padronização dentro do `Pipeline`, ajustada só nos dados de treino de cada divisão | Passa |
 | III. Validação temporal e baseline | Treino 2016-01 a 2021-12, intervalo de 12 meses (2022), teste de 2023-01 em diante; `TimeSeriesSplit(gap=GAP_MESES)`; macro-F1, acurácia balanceada, RMSE, MAE; dois baselines por tarefa; teste usado uma única vez (no `10`) | Passa |
 | IV. Simplicidade e configuração central | Funções simples, sem classes; novos valores só em `config.py`; scikit-learn é a dependência permitida na modelagem | Passa |
-| V. SDD e mudanças controladas | A regra de nota da validação cruzada e as tolerâncias de desempate foram decididas pelo autor ou propostas para aprovação (ver "Decisões registradas"); o peso das classes foi decidido pelo autor (decisão 6) | Passa, com pendência de aprovação das tolerâncias |
+| V. SDD e mudanças controladas | A regra de nota da validação cruzada e as tolerâncias de desempate foram decididas pelo autor (ver "Decisões registradas"); o peso das classes foi decidido pelo autor (decisão 6) | Passa |
 
 Sem violações; a tabela de Complexity Tracking não se aplica. Reavaliação após o desenho: sem mudança.
 
@@ -56,7 +56,7 @@ Sem violações; a tabela de Complexity Tracking não se aplica. Reavaliação a
 2. **Nota única por previsões fora da amostra agrupadas.** As previsões de validação das 3 divisões (36 linhas: 30 de alta e 6 de queda) são juntadas, e calcula-se um único macro-F1 (classificação) e um único RMSE (regressão). Não se faz média por divisão. Limitação a citar no relatório: a nota agrupada se apoia em apenas 6 meses de queda.
 3. **Impressão obrigatória por divisão:** tamanho de treino e de validação e contagem de classes de cada uma. Se algum treino de divisão tiver uma só classe, o script imprime um AVISO e para com mensagem clara.
 4. **Regra de desempate (preferir o mais simples).** As grades são listadas do mais simples ao mais complexo. Escolhe-se a primeira configuração cuja nota esteja dentro da tolerância da melhor: macro-F1 até `TOLERANCIA_MACRO_F1` abaixo do melhor, ou RMSE até `TOLERANCIA_RMSE` (relativa) acima do melhor. Ordem de simplicidade: regressão logística, `C` crescente (mais regularizada primeiro); Ridge, `alpha` decrescente (mais regularizado primeiro); Random Forest, `max_depth` crescente e, em empate, `min_samples_leaf` decrescente.
-5. **Tolerâncias propostas (a aprovar):** `TOLERANCIA_MACRO_F1 = 0.03` e `TOLERANCIA_RMSE = 0.03` (3% relativo). Equivalem aproximadamente ao efeito de uma única previsão errada em 36 linhas, e foram fixadas antes de ver qualquer resultado.
+5. **Tolerâncias e grades (aprovadas pelo autor em 2026-10-09):** `TOLERANCIA_MACRO_F1 = 0.03` e `TOLERANCIA_RMSE = 0.03` (3% relativo), e as grades do T002. Equivalem aproximadamente ao efeito de uma única previsão errada em 36 linhas, e foram fixadas antes de ver qualquer resultado.
 6. **Peso das classes (decisão do autor).** `class_weight="balanced"` na `LogisticRegression` e no `RandomForestClassifier`. Não se aplica a Ridge nem ao `RandomForestRegressor`. Motivo: a métrica de decisão é macro-F1 e o treino tem 61% de alta; sem o peso, o modelo tende a prever quase sempre "alta". O peso é recalculado em cada divisão da validação cruzada, só com o treino daquela divisão. Os baselines não mudam.
 ## Project Structure
 
