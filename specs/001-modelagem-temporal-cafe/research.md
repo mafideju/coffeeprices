@@ -30,7 +30,7 @@ Nenhum item ficou como "NEEDS CLARIFICATION". As decisões abaixo foram tomadas 
 
 ## 6. Modelos e grades
 - Regressão logística: `C` em {0,01; 0,1; 1; 10}, penalidade L2, `max_iter` suficiente para convergir.
-- Ridge: `alpha` em {0,1; 1; 10; 100}.
+- Ridge: `alpha` em {0,1; 1; 10; 100; 1000} (1000 acrescentado em 2026-10-09; ver `plan.md`, decisão 7).
 - Random Forest: `n_estimators = 300`, `max_depth` em {2, 3, 4}, `min_samples_leaf` em {5, 10}, `random_state = 42`.
 - Peso das classes: `class_weight="balanced"` na logística e no Random Forest de classificação; não se aplica a Ridge nem ao Random Forest de regressão.
 - Racional (decisão do autor): a métrica de decisão é macro-F1 e o treino tem 61% de alta; sem o peso, o modelo tende a prever quase sempre "alta". As métricas (macro-F1 e acurácia balanceada) continuam as mesmas.

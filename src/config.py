@@ -52,7 +52,7 @@ N_SPLITS_CV = 3
 TAMANHO_VALIDACAO_CV = 12
 # Grades do mais simples ao mais complexo (a regra de desempate pega a primeira dentro da tolerância)
 GRADE_LOGISTICA_C = [0.01, 0.1, 1, 10]
-GRADE_RIDGE_ALPHA = [100, 10, 1, 0.1]
+GRADE_RIDGE_ALPHA = [1000, 100, 10, 1, 0.1]
 GRADE_RF_N_ESTIMATORS = 300
 GRADE_RF_MAX_DEPTH = [2, 3, 4]
 GRADE_RF_MIN_SAMPLES_LEAF = [10, 5]
