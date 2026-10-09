@@ -41,7 +41,7 @@ O autor quer treinar e comparar, na classificação e na regressão, dois baseli
 **Acceptance Scenarios**:
 
 1. **Given** o treino preparado, **When** os baselines são calculados, **Then** existem, na classificação, a classe majoritária do treino e a persistência do sinal (alta se `acum12_passado` > 0) e, na regressão, a média do alvo no treino e a persistência (`acum12_passado` como previsão).
-2. **Given** o treino preparado, **When** os modelos são ajustados, **Then** há regressão logística e Ridge (com padronização ajustada só no treino e regularização L2) e Random Forest com profundidade limitada, para classificação e regressão.
+2. **Given** o treino preparado, **When** os modelos são ajustados, **Then** há regressão logística e Ridge (com padronização ajustada só no treino e regularização L2) e Random Forest com profundidade limitada, para classificação e regressão; os classificadores com pesos de classe balanceados.
 3. **Given** os hiperparâmetros a escolher, **When** o ajuste é feito, **Then** usa-se apenas o treino, com validação cruzada temporal e intervalo de 12 meses entre treino e validação.
 
 ---
@@ -82,7 +82,7 @@ Ao final, e somente se o autor aprovar, o autor quer uma previsão ilustrativa p
 
 - O modelo não supera nenhum baseline: o resultado é relatado como está, sem trocar variáveis, métrica, janela ou modelo para melhorá-lo.
 - Uma variável da lista fixa tem valor ausente numa linha com alvo: a execução avisa claramente e informa o que foi feito (a decisão deve ser registrada, nunca silenciosa).
-- Treino com classes desbalanceadas (61% de alta nas 72 linhas de treino contra cerca de 70% no teste): as métricas escolhidas devem refletir as duas classes, e o baseline "sempre alta" deve aparecer no comparativo.
+- Treino com classes desbalanceadas (61% de alta nas 72 linhas de treino contra cerca de 70% no teste): as métricas escolhidas devem refletir as duas classes, os modelos de classificação usam pesos de classe balanceados, e o baseline "sempre alta" deve aparecer no comparativo.
 - Execuções repetidas: o mesmo comando deve produzir os mesmos resultados (sementes fixas).
 - Validação cruzada temporal com poucos dados (72 linhas, janelas sobrepostas): o relatório deve registrar a limitação, e o ajuste não pode usar o teste para compensá-la.
 - Variáveis fora da lista fixa presentes no dataset (inclusive `oni` sem defasagem e colunas brutas): não podem entrar em nenhum modelo.
@@ -97,8 +97,8 @@ Ao final, e somente se o autor aprovar, o autor quer uma previsão ilustrativa p
 - **FR-004**: O sistema MUST imprimir e verificar os tamanhos (72 e 33) e as datas de início e fim de cada parte, e MUST interromper com mensagem clara se divergirem.
 - **FR-005**: O sistema MUST calcular, para classificação, os baselines (i) classe majoritária do treino e (ii) persistência do sinal (prever alta se `acum12_passado` > 0).
 - **FR-006**: O sistema MUST calcular, para regressão, os baselines (i) média do alvo no treino e (ii) persistência (`acum12_passado` como previsão).
-- **FR-007**: O sistema MUST treinar regressão logística (classificação) e Ridge (regressão), com padronização ajustada só no treino e regularização L2.
-- **FR-008**: O sistema MUST treinar Random Forest para classificação e regressão, com profundidade limitada.
+- **FR-007**: O sistema MUST treinar regressão logística (classificação, com pesos de classe balanceados) e Ridge (regressão), com padronização ajustada só no treino e regularização L2.
+- **FR-008**: O sistema MUST treinar Random Forest para classificação (com pesos de classe balanceados) e regressão, com profundidade limitada.
 - **FR-009**: O ajuste de hiperparâmetros MUST usar apenas o treino, com validação cruzada temporal e intervalo de 12 meses entre treino e validação.
 - **FR-010**: O sistema MUST calcular macro-F1, acurácia balanceada e matriz de confusão na classificação, e RMSE e MAE na regressão. O sistema MUST NOT usar MAPE (o alvo cruza zero) nem acurácia simples como métrica principal.
 - **FR-011**: O conjunto de teste MUST ser usado uma única vez, ao final, e nenhuma decisão de variáveis, hiperparâmetros ou modelo pode depender dele.
