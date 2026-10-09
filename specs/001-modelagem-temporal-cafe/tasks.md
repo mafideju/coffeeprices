@@ -86,7 +86,7 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
   - **Esperado**: 6 configurações de RF por tarefa; `hiperparametros_escolhidos.csv` com 4 linhas e `class_weight=balanced` só nos classificadores; os dois pares de hashes **idênticos** nas duas execuções (SC-004).
   - **Commit**: `feat: add random forest with temporal tuning`
 
-- [ ] 🛑 PARADA B (depois do T008, ANTES do T009): colar a saída completa do 09 (tamanhos e classes por divisão, tabela de validação cruzada, hiperparâmetros escolhidos, verificação de escala) e esperar o "pode seguir". **O teste só é aberto depois desta parada.**
+- [X] 🛑 PARADA B (depois do T008, ANTES do T009): colar a saída completa do 09 (tamanhos e classes por divisão, tabela de validação cruzada, hiperparâmetros escolhidos, verificação de escala) e esperar o "pode seguir". **O teste só é aberto depois desta parada.**
 
 **Ponto de controle (FR-009)**: tudo ajustado só com o treino; hiperparâmetros escolhidos e registrados antes de o teste ser aberto.
 
@@ -99,27 +99,27 @@ description: "Tarefas da modelagem temporal (Fase B, scripts 08 a 10)"
 **Regra do teste**: o 10 pode ser rodado várias vezes enquanto as figuras são ajustadas, mas depois da primeira saída do 10 nada no 09, nas grades, nas variáveis, nos pesos de classe ou nas tolerâncias pode mudar. Se algo precisar mudar, parar e avisar antes, explicando o motivo, e registrar em `docs/registro-de-correcoes.md`.
 **Pré-requisito**: PARADA B aprovada.
 
-- [ ] T009 [US3] Criar `src/10_avaliar_modelos.py` (parte 1: métricas): carregar `modelos_treinados.joblib`; ler `modelagem_teste.csv` (único ponto do projeto que o lê); aplicar os 4 modelos de cada tarefa (persistência calculada na hora a partir de `acum12_passado`); gravar `metricas_classificacao.csv` (modelo, macro-F1, acurácia balanceada, VN, FP, FN, VP, `n_teste`) e `metricas_regressao.csv` (modelo, RMSE, MAE, `n_teste`) e `previsoes_teste.csv`. Sem MAPE e sem acurácia simples. Imprimir o aviso "resultados indicativos: teste com 33 linhas (cerca de 3 janelas independentes)".
+- [X] T009 [US3] Criar `src/10_avaliar_modelos.py` (parte 1: métricas): carregar `modelos_treinados.joblib`; ler `modelagem_teste.csv` (único ponto do projeto que o lê); aplicar os 4 modelos de cada tarefa (persistência calculada na hora a partir de `acum12_passado`); gravar `metricas_classificacao.csv` (modelo, macro-F1, acurácia balanceada, VN, FP, FN, VP, `n_teste`) e `metricas_regressao.csv` (modelo, RMSE, MAE, `n_teste`) e `previsoes_teste.csv`. Sem MAPE e sem acurácia simples. Imprimir o aviso "resultados indicativos: teste com 33 linhas (cerca de 3 janelas independentes)".
   - **Comando**: `$env:PYTHONIOENCODING='utf-8'; .\.venv\Scripts\python.exe src\10_avaliar_modelos.py`
   - **Esperado**: `n_teste = 33` em todas as linhas; 4 linhas em cada métrica; baseline "sempre alta" com acurácia balanceada 0,50 e macro-F1 ≈ 0,41; `previsoes_teste.csv` com 33 linhas. `Select-String -Path src\*.py -Pattern modelagem_teste` aponta só o 08 (grava) e o 10 (lê).
   - **Commit**: `feat: add test evaluation metrics`
 
-- [ ] T010 [US3] No `10`, importância das variáveis: coeficientes padronizados da logística e do Ridge (valores direto do `Pipeline`, já em escala padronizada) e `feature_importances_` dos dois Random Forest; gravar `importancia_variaveis.csv` (tarefa, modelo, variável, valor).
+- [X] T010 [US3] No `10`, importância das variáveis: coeficientes padronizados da logística e do Ridge (valores direto do `Pipeline`, já em escala padronizada) e `feature_importances_` dos dois Random Forest; gravar `importancia_variaveis.csv` (tarefa, modelo, variável, valor).
   - **Comando**: igual ao de T009.
   - **Esperado**: 4 modelos × 13 variáveis = 52 linhas, só as 13 variáveis; importâncias do RF somam 1 por modelo.
   - **Commit**: `feat: add feature importance table`
 
-- [ ] T011 [P] [US3] No `10`, figuras `relatorio/figuras/09_comparacao_modelos.png` (macro-F1 e acurácia balanceada; RMSE e MAE, cada modelo contra seus baselines) e `10_matrizes_confusao.png` (4 modelos), ambas com a nota "resultados indicativos: teste com 33 linhas".
+- [X] T011 [P] [US3] No `10`, figuras `relatorio/figuras/09_comparacao_modelos.png` (macro-F1 e acurácia balanceada; RMSE e MAE, cada modelo contra seus baselines) e `10_matrizes_confusao.png` (4 modelos), ambas com a nota "resultados indicativos: teste com 33 linhas".
   - **Comando**: igual ao de T009.
   - **Esperado**: os 2 PNGs existem, abrem e trazem a nota; rodar duas vezes não muda as tabelas.
   - **Commit**: `feat: add model comparison and confusion matrix figures`
 
-- [ ] T012 [P] [US3] No `10`, figuras `11_previsto_vs_real.png` (regressão, 33 meses, com o real e a previsão de cada modelo) e `12_importancia_variaveis.png` (coeficientes e importância do RF), com a nota de resultados indicativos.
+- [X] T012 [P] [US3] No `10`, figuras `11_previsto_vs_real.png` (regressão, 33 meses, com o real e a previsão de cada modelo) e `12_importancia_variaveis.png` (coeficientes e importância do RF), com a nota de resultados indicativos.
   - **Comando**: igual ao de T009.
   - **Esperado**: os 2 PNGs existem; as 4 figuras `09_` a `12_` estão em `relatorio/figuras/`.
   - **Commit**: `feat: add predicted vs actual and importance figures`
 
-- [ ] T013 [US3] Rodar o pipeline completo duas vezes (08, 09 e 10) e comparar as tabelas.
+- [X] T013 [US3] Rodar o pipeline completo duas vezes (08, 09 e 10) e comparar as tabelas.
   - **Comando**: `$scripts = '08_preparar_modelagem','09_treinar_modelos','10_avaliar_modelos'; 1..2 | ForEach-Object { foreach ($s in $scripts) { .\.venv\Scripts\python.exe "src\$s.py" | Out-Null }; Get-FileHash relatorio\tabelas\*.csv | Select-Object Hash, @{n='Arquivo';e={Split-Path $_.Path -Leaf}} }`
   - **Esperado**: hashes idênticos entre as duas rodadas (SC-004). É só conferência de reprodutibilidade, sem alterar código; se divergirem, parar e avisar.
   - **Commit**: `chore: add model tables and figures` (inclui `relatorio/tabelas/` e `relatorio/figuras/` novos)
