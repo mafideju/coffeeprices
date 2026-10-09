@@ -36,6 +36,29 @@ FEATURES_CANDIDATAS = [
     "oni_l2", "oni_l6", "oni_l12",
 ]
 
+# --- Modelagem (Fase B) ---
+# 13 variáveis fixas, escolhidas pelas hipóteses (H2, H3, H4, H6, H7) e não por ranking de correlação.
+FEATURES_MODELO = [
+    "cambio_medio_var6m", "cambio_medio_var12m",
+    "arabica_usd_kg_var6m", "arabica_usd_kg_var12m",
+    "chuva_anom_l3", "chuva_anom_l6",
+    "tempmin_anom_l3", "tempmin_anom_l6",
+    "oni_l6", "oni_l12",
+    "mes_sen", "mes_cos", "acum12_passado",
+]
+SEMENTE = 42
+TAMANHOS_ESPERADOS = (72, 33)     # (treino, teste), linhas com alvo
+N_SPLITS_CV = 3
+TAMANHO_VALIDACAO_CV = 12
+# Grades do mais simples ao mais complexo (a regra de desempate pega a primeira dentro da tolerância)
+GRADE_LOGISTICA_C = [0.01, 0.1, 1, 10]
+GRADE_RIDGE_ALPHA = [100, 10, 1, 0.1]
+GRADE_RF_N_ESTIMATORS = 300
+GRADE_RF_MAX_DEPTH = [2, 3, 4]
+GRADE_RF_MIN_SAMPLES_LEAF = [10, 5]
+TOLERANCIA_MACRO_F1 = 0.03        # absoluta
+TOLERANCIA_RMSE = 0.03            # relativa (3%)
+
 # --- IPCA café moído (SIDRA) ---
 # Cole aqui os links de API gerados no SIDRA (veja o README, passo 2).
 # Use 2 links: um para o período antigo e outro para a tabela 7060 (2020 em diante).
