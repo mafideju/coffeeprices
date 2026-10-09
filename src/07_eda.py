@@ -57,6 +57,14 @@ def main():
     corr_alvo = df[colunas_lag + ["acum12_passado"]].corrwith(df["alvo_acum_12m"]).dropna()
     corr_alvo = corr_alvo.reindex(corr_alvo.abs().sort_values(ascending=False).index)
     corr_alvo.rename("correlacao_com_alvo").to_csv(config.TABELAS / "correlacao_com_alvo.csv")
+    # Só treino, sem as linhas cujo alvo invade o teste (evita escolher variáveis olhando o teste)
+    ultimo_mes = pd.Timestamp(f"{config.ANO_FIM_TREINO}-12-01") - pd.DateOffset(months=config.GAP_MESES)
+    treino = df[(df["mes"] <= ultimo_mes) & df["alvo_acum_12m"].notna()]
+    corr_treino = treino[config.FEATURES_CANDIDATAS].corrwith(treino["alvo_acum_12m"]).dropna()
+    corr_treino = corr_treino.reindex(corr_treino.abs().sort_values(ascending=False).index)
+    corr_treino.rename("correlacao_com_alvo").to_csv(config.TABELAS / "correlacao_com_alvo_treino.csv")
+    print(f"Correlações só no treino ({len(treino)} linhas, até {ultimo_mes:%Y-%m}), maiores 8:")
+    print(corr_treino.head(8).round(2).to_string())
     print("Maiores correlações com o alvo (atenção: janelas de 12 meses se sobrepõem e inflam a correlação):")
     print(corr_alvo.head(8).round(2).to_string())
 

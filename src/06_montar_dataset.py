@@ -54,6 +54,11 @@ def main():
         for lag in lags:
             df[f"{coluna}_l{lag}"] = df[coluna].shift(lag)
 
+    # 5b) Variações percentuais (em %) de câmbio e arábica: usam só o passado
+    for coluna in ["cambio_medio", "arabica_usd_kg"]:
+        for meses in [3, 6, 12]:
+            df[f"{coluna}_var{meses}m"] = df[coluna].pct_change(meses) * 100
+
     # 6) Safra (opcional): usa a safra do ANO ANTERIOR para não usar informação futura
     arquivo_safra = config.DADOS_BRUTOS / "safra_conab.csv"
     df = df.reset_index()

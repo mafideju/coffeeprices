@@ -16,6 +16,25 @@ ANO_INICIO = 2016                 # primeiro ano do dataset final
 ANO_COLETA_INICIO = ANO_INICIO - 1  # coletamos 1 ano antes para calcular defasagens
 ANO_FIM = date.today().year
 ANO_FIM_TREINO = 2022             # treino: até este ano; teste: anos seguintes
+GAP_MESES = 12                    # o alvo olha 12 meses à frente: linhas cujo alvo invade o teste não servem
+
+# --- Variáveis explicativas candidatas (dicionário de dados) ---
+# Fora da lista de propósito: "oni" sem defasagem (regra: defasagem mínima de 2 meses),
+# chuva_mm_dia e temp_min_c brutos (usamos as anomalias), alvos e "periodo".
+# As colunas "_l0" já representam o valor do próprio mês, por isso não repetimos as originais.
+FEATURES_CANDIDATAS = [
+    "mes_sen", "mes_cos",
+    "acum3_passado", "acum12_passado",
+    "variacao_mensal_l0", "variacao_mensal_l1", "variacao_mensal_l3",
+    "variacao_mensal_l6", "variacao_mensal_l12",
+    "cambio_medio_l0", "cambio_medio_l3", "cambio_medio_l6", "cambio_medio_l12",
+    "arabica_usd_kg_l0", "arabica_usd_kg_l3", "arabica_usd_kg_l6", "arabica_usd_kg_l12",
+    "cambio_medio_var3m", "cambio_medio_var6m", "cambio_medio_var12m",
+    "arabica_usd_kg_var3m", "arabica_usd_kg_var6m", "arabica_usd_kg_var12m",
+    "chuva_anom_l0", "chuva_anom_l3", "chuva_anom_l6", "chuva_anom_l9", "chuva_anom_l12",
+    "tempmin_anom_l0", "tempmin_anom_l3", "tempmin_anom_l6", "tempmin_anom_l9", "tempmin_anom_l12",
+    "oni_l2", "oni_l6", "oni_l12",
+]
 
 # --- IPCA café moído (SIDRA) ---
 # Cole aqui os links de API gerados no SIDRA (veja o README, passo 2).
