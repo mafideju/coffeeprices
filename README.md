@@ -46,7 +46,7 @@ Saídas: `dados/brutos/` (dados coletados), `dados/processados/dataset_mensal.cs
 ## Pontos de verificação (confira na primeira execução)
 
 - `01`: o resumo impresso deve mostrar o subitem café moído e a variação mensal. Se aparecer mais de uma categoria, refaça o link.
-- `02`: confirme que a série 3698 realmente é o câmbio médio mensal (veja os primeiros valores). Se falhar, troque `SGS_CAMBIO` por uma série de câmbio que você validar.
+- `02`: a série 3698 foi verificada por comparação com a média mensal da série diária SGS 1 (dólar comercial venda), não pela documentação do BCB. Se falhar, troque `SGS_CAMBIO` por uma série de câmbio que você validar.
 - `03`: se a API do NASA POWER mudar o formato, o script falha com mensagem clara. Os pontos de `PONTOS_CLIMA` são aproximados e precisam ser justificados no relatório.
 - `04`: se o endereço do arquivo da NOAA mudar, baixe o ONI manualmente e adapte o script.
 - `05`: se não achar "Coffee, Arabica", o script imprime as primeiras linhas da planilha para você inspecionar.

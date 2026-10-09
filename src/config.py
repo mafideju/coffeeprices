@@ -35,7 +35,10 @@ URLS_IPCA_CAFE = [
 ]
 
 # --- Câmbio (Banco Central, SGS) ---
-SGS_CAMBIO = 3698  # PTAX venda, média mensal (confirme na primeira execução)
+# Série mensal do dólar (R$/US$, venda, média do mês). Verificada numericamente em 2026-10-09:
+# coincide com a média mensal da série diária SGS 1 (dólar comercial venda). Não é a PTAX;
+# a página de metadados do BCB não pôde ser consultada.
+SGS_CAMBIO = 3698
 
 # --- Clima: pontos de referência em regiões cafeeiras (latitude, longitude) ---
 # Coordenadas aproximadas dos municípios; documente e justifique no relatório.
