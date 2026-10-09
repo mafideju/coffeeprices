@@ -1,6 +1,7 @@
 """Treina baselines, modelo linear e Random Forest usando SÓ o treino (o teste não é aberto aqui)."""
 import sys
 
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
@@ -155,20 +156,35 @@ def main():
         "logistica": [{"C": c} for c in config.GRADE_LOGISTICA_C],
         "ridge": [{"alpha": a} for a in config.GRADE_RIDGE_ALPHA],
     }
-    escolhidas = []
+    grade_rf = [{"max_depth": d, "min_samples_leaf": m}
+                for d in config.GRADE_RF_MAX_DEPTH for m in config.GRADE_RF_MIN_SAMPLES_LEAF]
+    grades["rf_classificacao"] = grade_rf
+    grades["rf_regressao"] = grade_rf
+
+    escolhidas, finais = [], {}
     for modelo, grade in grades.items():
         novas, escolhida, final = ajustar_modelo(treino, divisoes, modelo, grade)
         linhas += novas
-        escolhidas.append((novas[0][0], modelo, escolhida))
+        peso = "balanced" if modelo in ("logistica", "rf_classificacao") else ""
+        escolhidas.append((novas[0][0], modelo, str(escolhida), peso))
+        finais[modelo] = final
         unidade = "macro-F1" if novas[0][0] == "classificacao" else "RMSE"
         print(f"\n{modelo} ({unidade}, nota agrupada):")
         for _, _, params, nota, marca in novas:
-            print(f"  {params:20s} {nota:.4f} {'<- escolhida' if marca else ''}")
+            print(f"  {params:45s} {nota:.4f} {'<- escolhida' if marca else ''}")
 
     tabela = pd.DataFrame(linhas, columns=["tarefa", "modelo", "hiperparametros", "nota", "escolhida"])
     tabela.to_csv(config.TABELAS / "validacao_cruzada.csv", index=False)
-    pd.DataFrame(escolhidas, columns=["tarefa", "modelo", "hiperparametros"]).to_csv(
+    pd.DataFrame(escolhidas, columns=["tarefa", "modelo", "hiperparametros", "class_weight"]).to_csv(
         config.TABELAS / "hiperparametros_escolhidos.csv", index=False)
+
+    # O 10 usa estes valores dos baselines (calculados nas 72 linhas do treino) e os 4 pipelines finais
+    baselines = {"classe_majoritaria": int(treino["alvo_alta"].mean() >= 0.5),
+                 "media_alvo": float(treino["alvo_acum_12m"].mean())}
+    joblib.dump({"pipelines": finais, "baselines": baselines}, config.DADOS_PROCESSADOS / "modelos_treinados.joblib")
+    print(f"\nBaselines do treino inteiro: classe majoritária = {baselines['classe_majoritaria']}, "
+          f"média do alvo = {baselines['media_alvo']:.2f}")
+    print("Gravados: validacao_cruzada.csv, hiperparametros_escolhidos.csv e modelos_treinados.joblib")
 
 
 if __name__ == "__main__":
