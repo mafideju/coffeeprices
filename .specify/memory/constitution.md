@@ -1,8 +1,9 @@
 <!--
 Sync Impact Report
-Version change: template sem versão de governança -> 1.0.0
-Modified principles: nenhum (constituição inicial)
-Added sections: Restrições de Dados e Metodologia; Fluxo de Desenvolvimento
+Version change: 1.0.0 -> 1.1.0
+Modified principles: II (esclarecimento da climatologia); III (divisão com intervalo
+de segurança, métricas de decisão e critério de aceitação)
+Added sections: nenhuma
 Removed sections: nenhum
 Follow-up TODOs: nenhum.
 -->
@@ -20,17 +21,25 @@ MUST ser reproduzíveis; quando houver aleatoriedade, MUST usar sementes fixas.
 Cada variável explicativa MUST usar somente informação disponível até o mês previsto.
 O alvo MUST representar a variação acumulada do IPCA do café moído entre t+1 e t+12.
 O ONI MUST usar defasagem mínima de dois meses. Anomalias climáticas MUST usar médias
-calculadas somente no período de treino. Nenhuma etapa pode usar informação futura como
+calculadas somente até `ANO_FIM_TREINO`, nunca com dados do teste. Nenhuma etapa pode usar informação futura como
 entrada do modelo.
 
 ### III. Validação Temporal e Baseline Obrigatório
-A divisão entre treino e teste MUST respeitar o tempo: treino até 2022 e teste nos anos
-seguintes. É proibido embaralhar as observações. Ajustes de hiperparâmetros MUST usar
-validação temporal. Todo modelo MUST ser comparado a um baseline. A classificação MUST
-ser avaliada por F1-score e acurácia; a regressão, por RMSE e MAPE. Os critérios de
-aceitação definidos para este trabalho são F1 acima do baseline e RMSE pelo menos 10%
-menor que o baseline; resultados que não atinjam esses critérios MUST ser relatados sem
-ser ocultados ou reinterpretados como sucesso.
+A divisão entre treino e teste MUST respeitar o tempo e nunca embaralhar as observações:
+treino de 2016-01 a 2021-12, intervalo de segurança de 12 meses (2022, descartado) e teste
+de 2023-01 em diante. O intervalo existe porque o alvo olha 12 meses à frente: sem ele, o
+alvo das últimas linhas de treino cairia dentro do teste. Na modelagem, o tamanho do
+intervalo vem de `GAP_MESES` em `src/config.py`. `ANO_FIM_TREINO` (2022) continua sendo
+usado apenas na coluna `periodo` e na climatologia das anomalias (Princípio II), e MUST NOT
+definir o treino da modelagem. Ajustes de hiperparâmetros MUST usar validação temporal com
+o mesmo intervalo, apenas sobre o treino. O teste MUST ser usado uma única vez, ao final.
+
+Todo modelo MUST ser comparado com baselines. As métricas de decisão são: macro-F1 e
+acurácia balanceada na classificação; RMSE e MAE na regressão. MAPE e acurácia simples
+MUST NOT ser métricas de decisão, porque o alvo cruza zero e as classes são desbalanceadas
+no teste. Se um modelo não superar os baselines, o resultado MUST ser relatado como está,
+sem alterar a metodologia para melhorá-lo. Um resultado modesto, porém bem analisado, é
+aceitável.
 
 ### IV. Simplicidade e Configuração Central
 O código MUST preferir soluções curtas, legíveis e adequadas a quem está começando em
@@ -76,4 +85,4 @@ A conformidade deve ser revisada em cada mudança relevante e antes de seu commi
 conflito entre uma alteração proposta e as regras metodológicas deve ser levado ao autor
 antes da implementação.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-09 | **Last Amended**: 2026-10-09
+**Version**: 1.1.0 | **Ratified**: 2026-10-09 | **Last Amended**: 2026-10-09
