@@ -2,6 +2,9 @@
 import sys
 
 import joblib
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.metrics import (balanced_accuracy_score, confusion_matrix, f1_score,
@@ -74,6 +77,55 @@ def main():
         print(f"  {tarefa} / {modelo}:")
         for _, r in g.reindex(g["valor"].abs().sort_values(ascending=False).index).iterrows():
             print(f"    {r['variavel']:24s} {r['valor']:+.4f}")
+
+    figura_comparacao(met_c, met_r)
+    figura_matrizes(met_c)
+    print(f"\nFiguras gravadas em {config.FIGURAS}: 09_comparacao_modelos.png, 10_matrizes_confusao.png")
+
+
+COR_BASELINE, COR_MODELO = "#9e9e9e", "#1f77b4"
+
+
+def figura_comparacao(met_c, met_r):
+    """Barras: macro-F1 e acurácia balanceada (classificação); RMSE e MAE (regressão)."""
+    fig, eixos = plt.subplots(2, 2, figsize=(13, 8))
+    for eixo, tabela, coluna, titulo in [
+        (eixos[0, 0], met_c, "macro_f1", "Classificação: macro-F1 (maior é melhor)"),
+        (eixos[0, 1], met_c, "acuracia_balanceada", "Classificação: acurácia balanceada (maior é melhor)"),
+        (eixos[1, 0], met_r, "rmse", "Regressão: RMSE em p.p. (menor é melhor)"),
+        (eixos[1, 1], met_r, "mae", "Regressão: MAE em p.p. (menor é melhor)"),
+    ]:
+        cores = [COR_BASELINE if m.startswith("baseline") else COR_MODELO for m in tabela["modelo"]]
+        eixo.bar(tabela["modelo"], tabela[coluna], color=cores)
+        for i, v in enumerate(tabela[coluna]):
+            eixo.text(i, v, f"{v:.2f}", ha="center", va="bottom", fontsize=9)
+        eixo.set_title(titulo, fontsize=10)
+        eixo.tick_params(axis="x", rotation=25, labelsize=8)
+    fig.suptitle(f"Modelos contra baselines (cinza = baseline) - {AVISO}", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(config.FIGURAS / "09_comparacao_modelos.png", dpi=150)
+    plt.close(fig)
+
+
+def figura_matrizes(met_c):
+    """Uma matriz de confusão por modelo de classificação (linha = real, coluna = previsto)."""
+    fig, eixos = plt.subplots(1, 4, figsize=(15, 4))
+    for eixo, (_, r) in zip(eixos, met_c.iterrows()):
+        matriz = np.array([[r["VN"], r["FP"]], [r["FN"], r["VP"]]])
+        eixo.imshow(matriz, cmap="Blues")
+        for i in range(2):
+            for j in range(2):
+                eixo.text(j, i, int(matriz[i, j]), ha="center", va="center", fontsize=14,
+                          color="white" if matriz[i, j] > matriz.max() / 2 else "black")
+        eixo.set_xticks([0, 1], ["queda", "alta"])
+        eixo.set_yticks([0, 1], ["queda", "alta"])
+        eixo.set_xlabel("previsto")
+        eixo.set_ylabel("real")
+        eixo.set_title(r["modelo"], fontsize=9)
+    fig.suptitle(f"Matrizes de confusão no teste - {AVISO}", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(config.FIGURAS / "10_matrizes_confusao.png", dpi=150)
+    plt.close(fig)
 
 
 def calcular_importancia(pipes):
