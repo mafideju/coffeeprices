@@ -80,7 +80,45 @@ def main():
 
     figura_comparacao(met_c, met_r)
     figura_matrizes(met_c)
-    print(f"\nFiguras gravadas em {config.FIGURAS}: 09_comparacao_modelos.png, 10_matrizes_confusao.png")
+    figura_previsto_vs_real(previsoes)
+    figura_importancia(importancia)
+    print(f"\nFiguras gravadas em {config.FIGURAS}: 09_comparacao_modelos.png, 10_matrizes_confusao.png, "
+          "11_previsto_vs_real.png, 12_importancia_variaveis.png")
+
+
+def figura_previsto_vs_real(previsoes):
+    """Regressão: real contra a previsão de cada modelo, mês a mês no teste."""
+    fig, eixo = plt.subplots(figsize=(12, 5))
+    eixo.plot(previsoes["mes"], previsoes["alvo_acum_12m"], color="black", linewidth=2.5, label="real")
+    estilos = {"baseline_media": ("#9e9e9e", "--"), "baseline_persistencia": ("#bdbdbd", ":"),
+               "ridge": ("#1f77b4", "-"), "rf_regressao": ("#d62728", "-")}
+    for modelo, (cor, estilo) in estilos.items():
+        eixo.plot(previsoes["mes"], previsoes[modelo], color=cor, linestyle=estilo, label=modelo)
+    eixo.axhline(0, color="black", linewidth=0.5)
+    eixo.set_ylabel("variação acumulada do IPCA do café nos 12 meses seguintes (%)")
+    eixo.set_title(f"Previsto contra real no teste (regressão) - {AVISO}", fontsize=10)
+    eixo.legend(fontsize=8)
+    fig.tight_layout()
+    fig.savefig(config.FIGURAS / "11_previsto_vs_real.png", dpi=150)
+    plt.close(fig)
+
+
+def figura_importancia(importancia):
+    """Coeficientes padronizados (modelos lineares) e importância do Random Forest, por modelo."""
+    fig, eixos = plt.subplots(1, 4, figsize=(17, 6), sharey=True)
+    ordem = (importancia[importancia["modelo"] == "rf_classificacao"]
+             .sort_values("valor")["variavel"].tolist())
+    for eixo, (modelo, g) in zip(eixos, importancia.groupby("modelo", sort=False)):
+        g = g.set_index("variavel").loc[ordem]
+        cores = ["#d62728" if v < 0 else "#1f77b4" for v in g["valor"]]
+        eixo.barh(g.index, g["valor"], color=cores)
+        eixo.axvline(0, color="black", linewidth=0.5)
+        tipo = "coeficiente padronizado" if modelo in ("logistica", "ridge") else "importância"
+        eixo.set_title(f"{modelo}\n({tipo})", fontsize=9)
+    fig.suptitle(f"Importância das variáveis - {AVISO}", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(config.FIGURAS / "12_importancia_variaveis.png", dpi=150)
+    plt.close(fig)
 
 
 COR_BASELINE, COR_MODELO = "#9e9e9e", "#1f77b4"
